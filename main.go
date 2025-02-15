@@ -1,18 +1,30 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 type Pizza struct {
 	ID    int
-	nome  string
-	preco float64
+	Nome  string
+	Preco float64
 }
 
+// https://gin-gonic.com/docs/quickstart/
 func main() {
+	router := gin.Default()
+
 	pizzas := []Pizza{
-		{ID: 1, nome: "Toscana", preco: 49.50},
-		{ID: 2, nome: "Marguerita", preco: 79.50},
-		{ID: 3, nome: "Atum com queijo", preco: 69.50},
+		{ID: 1, Nome: "Calabresa", Preco: 30.00},
+		{ID: 2, Nome: "Mussarela", Preco: 25.00},
+		{ID: 3, Nome: "Portuguesa", Preco: 35.00},
 	}
-	fmt.Println(pizzas)
+
+	router.GET("/pizzas", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": pizzas,
+		})
+	})
+
+	router.Run() // listen and serve on 0.0.0.0:8080
 }
