@@ -27,3 +27,34 @@ var nomePizzaria string
 
 **Short Assignment Statement**
 nomePizzaria := "Pizzaria Go"
+
+## Interpoladores de Formatação no Go
+
+A tabela abaixo apresenta os principais interpoladores utilizados em Go para formatar strings com `fmt.Sprintf` e outras funções de formatação:
+
+| Interpolador | Descrição                                      |
+|-------------|-----------------------------------------------|
+| `%d`        | Inteiros decimais                            |
+| `%f`        | Números de ponto flutuante                   |
+| `%s`        | Strings                                      |
+| `%q`        | Strings com aspas                           |
+| `%x` e `%X` | Hexadecimal (minúsculo e maiúsculo)         |
+| `%b`        | Binário                                     |
+| `%p`        | Ponteiros                                   |
+| `%t`        | Booleanos                                   |
+| `%v`        | Valor padrão                                |
+| `%+v`       | Valor padrão com campos                     |
+
+💡 **Exemplo de uso em Go:**
+```go
+package main
+
+import "fmt"
+
+func main() {
+    nome := "João"
+    idade := 30
+    preco := 99.99
+    fmt.Printf("Nome: %s, Idade: %d, Preço: %.2f\n", nome, idade, preco)
+}
+```
