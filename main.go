@@ -9,13 +9,10 @@ type Pizza struct {
 }
 
 func main() {
-
-	/***
-	var Declaration
-	var nomePizzaria string
-	***/
-	// := Short Assignment Statement
-	nomePizzaria := "Pizzaria Go"
-	instagram, telefone := "@pizzaria_go", 11951
-	fmt.Printf("Nome da pizzaria: %s (instagram: %s) - Telefone: %d", nomePizzaria, instagram, telefone)
+	pizzas := []Pizza{
+		{ID: 1, nome: "Toscana", preco: 49.50},
+		{ID: 2, nome: "Marguerita", preco: 79.50},
+		{ID: 3, nome: "Atum com queijo", preco: 69.50},
+	}
+	fmt.Println(pizzas)
 }

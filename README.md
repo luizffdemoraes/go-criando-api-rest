@@ -21,3 +21,9 @@
 `go build` → Compila o código-fonte Go.</br>
 `.` → Refere-se ao diretório atual, indicando que o Go deve compilar todos os arquivos .go ali presentes.</br>
 Se o diretório contiver um arquivo com package main, o comando gerará um executável.</br>
+
+**Var Declaration**
+var nomePizzaria string
+
+**Short Assignment Statement**
+nomePizzaria := "Pizzaria Go"
