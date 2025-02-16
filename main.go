@@ -68,7 +68,24 @@ func getPizzasByID(c *gin.Context) {
 }
 
 func deletePizzasByID(c *gin.Context) {
-	c.JSON(200, gin.H{"method": "DELETE"})
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	for i, pizza := range pizzas {
+		if pizza.ID == id {
+			pizzas = append(pizzas[:i], pizzas[i+1:]...)
+			savePizzas()
+			c.JSON(200, gin.H{"message": "Pizza deleted", "id": id})
+			return
+		}
+	}
+
+	c.JSON(404, gin.H{"message": "Pizza not found"})
 }
 
 func updatePizzasByID(c *gin.Context) {
