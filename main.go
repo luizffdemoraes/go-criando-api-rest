@@ -2,6 +2,7 @@ package main
 
 import (
 	"pizzaria/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +19,7 @@ func main() {
 
 	router.GET("/pizzas", getPizzas)
 	router.POST("/pizzas", postPizzas)
+	router.GET("/pizzas/:id", getPizzasByID)
 
 	router.Run() // listen and serve on 0.0.0.0:8080
 }
@@ -41,4 +43,24 @@ func postPizzas(c *gin.Context) {
 		"message": newPizza,
 	})
 
+}
+
+func getPizzasByID(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": err.Error(),
+		})
+	}
+
+	for _, pizza := range pizzas {
+		if pizza.ID == id {
+			c.JSON(200, pizza)
+			return
+		}
+	}
+	c.JSON(404, gin.H{
+		"message": "Pizza not found",
+	})
 }
