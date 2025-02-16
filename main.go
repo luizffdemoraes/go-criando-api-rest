@@ -1,20 +1,20 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
+	"os"
 	"pizzaria/models"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
-var pizzas = []models.Pizza{
-	{ID: 1, Nome: "Calabresa", Preco: 30.00},
-	{ID: 2, Nome: "Mussarela", Preco: 25.00},
-	{ID: 3, Nome: "Portuguesa", Preco: 35.00},
-}
+var pizzas []models.Pizza
 
 // https://gin-gonic.com/docs/quickstart/
 func main() {
+	loadPizzas()
 	router := gin.Default()
 
 	router.GET("/pizzas", getPizzas)
@@ -63,4 +63,18 @@ func getPizzasByID(c *gin.Context) {
 	c.JSON(404, gin.H{
 		"message": "Pizza not found",
 	})
+}
+
+func loadPizzas() {
+	file, err := os.Open("dados/pizzas.json")
+	if err != nil {
+		fmt.Println("Error file:", err)
+		return
+	}
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	if err := decoder.Decode(&pizzas); err != nil {
+		fmt.Println("Error decode:", err)
+		return
+	}
 }
