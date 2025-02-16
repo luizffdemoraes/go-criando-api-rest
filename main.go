@@ -20,7 +20,8 @@ func main() {
 	router.GET("/pizzas", getPizzas)
 	router.POST("/pizzas", postPizzas)
 	router.GET("/pizzas/:id", getPizzasByID)
-
+	router.DELETE("/pizzas/:id", deletePizzasByID)
+	router.PUT("/pizzas/:id", updatePizzasByID)
 	router.Run() // listen and serve on 0.0.0.0:8080
 }
 
@@ -64,6 +65,14 @@ func getPizzasByID(c *gin.Context) {
 	c.JSON(404, gin.H{
 		"message": "Pizza not found",
 	})
+}
+
+func deletePizzasByID(c *gin.Context) {
+	c.JSON(200, gin.H{"method": "DELETE"})
+}
+
+func updatePizzasByID(c *gin.Context) {
+	c.JSON(200, gin.H{"method": "PUT"})
 }
 
 func loadPizzas() {
