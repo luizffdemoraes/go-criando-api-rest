@@ -1,1 +1,1 @@
-[{"id":1,"nome":"Franco com queijo","preco":30}]
+[{"id":1,"nome":"Franco com queijo","preco":30,"reviews":[{"rating":5,"comment":"Pizza excelente."}]},{"id":2,"nome":"Calabresa com queijo","preco":30,"reviews":[{"rating":3,"comment":""},{"rating":3,"comment":"Pizza mais ou menos."}]}]

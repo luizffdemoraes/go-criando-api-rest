@@ -27,7 +27,7 @@ func PostReviewsByIDPizza(c *gin.Context) {
 			p.Reviews = append(p.Reviews, newReview)
 			data.Pizzas[i] = p
 			data.SavePizzas()
-			c.JSON(http.StatusCreated, gin.H{"message": "Review created"})
+			c.JSON(http.StatusCreated, gin.H{"message": data.Pizzas[i]})
 			return
 		}
 
