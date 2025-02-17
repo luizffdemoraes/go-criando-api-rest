@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"pizzaria/internal/data"
 	"pizzaria/internal/models"
 	"pizzaria/internal/service"
@@ -9,9 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// https://pkg.go.dev/net/http
 func GetPizzas(c *gin.Context) {
 
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"message": data.Pizzas,
 	})
 }
@@ -21,13 +23,13 @@ func PostPizzas(c *gin.Context) {
 	newPizza := models.Pizza{}
 	// Faz o binding do JSON recebido para a struct Pizza
 	if err := c.ShouldBindJSON(&newPizza); err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error()})
 		return
 	}
 
 	if err := service.ValidatePizzaPrice(&newPizza); err != nil {
-		c.JSON(400, gin.H{"message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 	// Salva as pizzas no arquivo pizzas.json
@@ -36,7 +38,7 @@ func PostPizzas(c *gin.Context) {
 	newPizza.ID = len(data.Pizzas) + 1
 	// Adiciona a nova pizza à lista de pizzas
 	data.Pizzas = append(data.Pizzas, newPizza)
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusCreated, gin.H{
 		"message": newPizza,
 	})
 }
@@ -47,7 +49,7 @@ func GetPizzasByID(c *gin.Context) {
 	// Converte o ID de string para inteiro
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 	}
@@ -56,11 +58,11 @@ func GetPizzasByID(c *gin.Context) {
 	for _, pizza := range data.Pizzas {
 		// Verifica se o ID da pizza atual corresponde ao ID buscado retorna a pizza encontrada
 		if pizza.ID == id {
-			c.JSON(200, pizza)
+			c.JSON(http.StatusOK, pizza)
 			return
 		}
 	}
-	c.JSON(404, gin.H{
+	c.JSON(http.StatusNotFound, gin.H{
 		"message": "Pizza not found",
 	})
 }
@@ -71,7 +73,7 @@ func DeletePizzasByID(c *gin.Context) {
 	// Converte o ID de string para inteiro
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 	}
@@ -82,12 +84,12 @@ func DeletePizzasByID(c *gin.Context) {
 			// Remove a pizza da lista, mantendo os elementos antes e depois dela
 			data.Pizzas = append(data.Pizzas[:i], data.Pizzas[i+1:]...)
 			data.SavePizzas()
-			c.JSON(200, gin.H{"message": "Pizza deleted", "id": id})
+			c.JSON(http.StatusOK, gin.H{"message": "Pizza deleted", "id": id})
 			return
 		}
 	}
 
-	c.JSON(404, gin.H{"message": "Pizza not found"})
+	c.JSON(http.StatusNotFound, gin.H{"message": "Pizza not found"})
 }
 
 func UpdatePizzasByID(c *gin.Context) {
@@ -96,7 +98,7 @@ func UpdatePizzasByID(c *gin.Context) {
 	// Converte o ID de string para inteiro
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error(),
 		})
 	}
@@ -105,13 +107,13 @@ func UpdatePizzasByID(c *gin.Context) {
 	updatedPizza := models.Pizza{}
 	// Faz o binding do JSON recebido para a estrutura updatedPizza
 	if err := c.ShouldBindJSON(&updatedPizza); err != nil {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": err.Error()})
 		return
 	}
 
 	if err := service.ValidatePizzaPrice(&updatedPizza); err != nil {
-		c.JSON(400, gin.H{"message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -122,10 +124,10 @@ func UpdatePizzasByID(c *gin.Context) {
 			data.Pizzas[i] = updatedPizza
 			data.Pizzas[i].ID = id // Mantém o ID original
 			data.SavePizzas()
-			c.JSON(200, data.Pizzas[i])
+			c.JSON(http.StatusOK, data.Pizzas[i])
 			return
 		}
 	}
 
-	c.JSON(404, gin.H{"message": "Pizza not found"})
+	c.JSON(http.StatusNotFound, gin.H{"message": "Pizza not found"})
 }
