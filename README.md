@@ -91,3 +91,11 @@ Um artigo de Rob Pike explicando a filosofia de tratamento de erros do Go e como
 ## [8. Estruturas de Dados em Go: Interfaces](https://research.swtch.com/interfaces)
 
 Um mergulho profundo de Russ Cox nos tipos de interface do Go, explicando como eles funcionam e seu papel no sistema de tipos do Go.
+
+## [9. Go Concurrency Patterns - Rob Pike](https://www.youtube.com/watch?v=f6kdp27TYZs)
+
+Um vídeo sobre concorrência em Go feito por um de seus criadores.
+
+## [10. DevOps e Go: O Papel de Go na Automação e CI/CD](https://www.linkedin.com/pulse/golang-e-devops-um-guia-para-iniciantes-paulo-roberto/)
+
+Um artigo sobre como Go é utilizado na automação e nos pipelines de CI/CD, destacando suas capacidades e vantagens para DevOps.
