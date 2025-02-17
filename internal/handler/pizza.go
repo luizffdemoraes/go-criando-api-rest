@@ -3,6 +3,7 @@ package handler
 import (
 	"pizzaria/internal/data"
 	"pizzaria/internal/models"
+	"pizzaria/internal/service"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,11 @@ func PostPizzas(c *gin.Context) {
 	if err := c.ShouldBindJSON(&newPizza); err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error()})
+		return
+	}
+
+	if err := service.ValidatePizzaPrice(&newPizza); err != nil {
+		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
 	// Salva as pizzas no arquivo pizzas.json
@@ -101,6 +107,11 @@ func UpdatePizzasByID(c *gin.Context) {
 	if err := c.ShouldBindJSON(&updatedPizza); err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error()})
+		return
+	}
+
+	if err := service.ValidatePizzaPrice(&updatedPizza); err != nil {
+		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
 
